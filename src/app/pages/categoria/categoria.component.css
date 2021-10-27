@@ -1,0 +1,119 @@
+#addEmpresa:disabled,
+#addEmpresa[disabled] {
+    border: 1px solid #999999;
+    background-color: #cccccc;
+    color: #666666;
+    cursor: default;
+}
+
+#msgError {
+    color: red;
+    font-size: 9px;
+}
+
+.form-control.validar {
+    border: 1px solid #f96332;
+}
+
+.card-wizard .picture-container {
+    position: relative;
+    cursor: pointer;
+    text-align: center;
+}
+
+.card-wizard .picture {
+    width: 96px;
+    height: 96px;
+    background-color: #999999;
+    border: 1px solid #E3E3E3;
+    color: #FFFFFF;
+    /* border-radius: 50%; */
+    margin: 5px auto;
+    overflow: hidden;
+    transition: all 0.2s;
+    -webkit-transition: all 0.2s;
+}
+
+.card-wizard .picture:hover {
+    border-color: #2ca8ff;
+}
+
+.card-wizard .moving-tab {
+    position: absolute;
+    text-align: center;
+    padding: 12px;
+    font-size: 12px;
+    text-transform: uppercase;
+    -webkit-font-smoothing: subpixel-antialiased;
+    top: -4px;
+    left: 0px;
+    border-radius: 30px;
+    background-color: #FFFFFF;
+    box-shadow: 0 1px 15px 1px rgba(39, 39, 39, 0.1);
+    color: #f96332;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.card-wizard .picture input[type="file"] {
+    cursor: pointer;
+    display: block;
+    height: 100%;
+    left: 0;
+    opacity: 0 !important;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+
+.card-wizard .picture-src {
+    width: 100%;
+}
+
+.card-wizard .tab-content {
+    min-height: 440px;
+    /* padding-bottom: 50px; */
+}
+
+.card-wizard {
+    border-radius: 10px;
+}
+
+.card-wizard .nav-pills {
+    margin-left: -15px;
+    margin-right: -15px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.card-wizard .nav-pills>li>a {
+    text-align: center;
+    border: none;
+    background-color: #9A9A9A;
+    color: #FFFFFF;
+    text-transform: uppercase;
+}
+
+.card-wizard .nav-pills>li>a:hover,
+.card-wizard .nav-pills>li>a:focus {
+    background-color: #9A9A9A;
+    outline: 0 !important;
+}
+
+.card-wizard .nav-pills>li:first-child>a,
+.card-wizard .nav-pills>li:last-child>a {
+    border-radius: 0;
+}
+
+.card-wizard .btn-finish {
+    display: none;
+}
+
+.card-wizard .header {
+    padding-top: 25px;
+    padding-bottom: 10px;
+}
+
+.card-wizard .footer {
+    padding-bottom: 15px;
+}

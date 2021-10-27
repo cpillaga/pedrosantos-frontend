@@ -1,0 +1,322 @@
+<div class="header bg-primary pb-6" style="background-color: #93D8F9 !important;">
+    <div class="container-fluid" style="background-color: #93D8F9;">
+        <div class="header-body">
+            <div class="row align-items-center py-4">
+                <div class="col-lg-6 col-7">
+                    <h6 class="h2 text-white d-inline-block mb-0">Proveedores</h6>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid mt--6">
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <!-- Card header -->
+                <div class="card-header border-0">
+                    <form #buscar="ngForm" (keyup)="searchProv(buscar.value.buscarProv)">
+                        <input type="text" class="form-control" value="{{ buscarProv }}" [ngModel]="buscarProv" id="buscarProv" name="buscarProv" placeholder="Buscar...">
+                    </form>
+                </div>
+                <!-- Light table -->
+                <div class="table-responsive">
+
+                    <table class="table align-items-center table-flush sortable">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col" class="sort" data-sort="razonSoc">Datos</th>
+                                <th scope="col" class="sort">Dirección</th>
+                                <th scope="col" class="text-right">Acciones</th>
+                            </tr>
+                        </thead>
+
+                        <p *ngIf="coincidencia == false">No se encontró ninguna coincidencia</p>
+
+                        <tbody class="list" *ngIf="coincidencia == true">
+                            <tr *ngFor="let prov of proveedor">
+                                <th scope="row" class="razonSoc">
+                                    <div class="media align-items-center">
+                                        <div class="media-body">
+                                            <label>
+                                                <strong>Ruc: </strong>{{ prov.ruc }}
+                                                <br> 
+                                                <strong>Nombre: </strong>{{ prov.razonSoc.substring(0, 30) }}
+                                                <br>
+                                                <strong>Representante: </strong>{{ prov.representante }}
+                                                <br>
+                                                <strong>Correo: </strong>{{ prov.correo }}
+                                                <br>
+                                                <strong>Teléfono: </strong>{{ prov.telefono }}
+                                            </label>
+                                        </div>
+                                    </div>
+                                </th>
+
+                                <th>
+                                    <div class="media align-items-center">
+                                        <div class="media-body">
+                                            <label for="">{{ prov.direccion.substring(0, 25) }}</label><br>
+                                            <label for="">{{ prov.ciudad }}</label><br>
+                                        </div>
+                                    </div>
+
+                                </th>
+
+                                <th class="text-right">
+                                    <button class="btn btn-primary btn-sm" (click)="getDataProv(prov);" data-toggle="modal" data-target="#ModalUpdProv">Modificar</button>
+                                </th>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+                <!-- Card footer -->
+                <!-- <div class="card-footer py-4">
+                    <nav aria-label="...">
+                        <ul class="pagination justify-content-end mb-0">
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" tabindex="-1">
+                                    <i class="fas fa-angle-left"></i>
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                            </li>
+                            <li class="page-item active">
+                                <a class="page-link" href="#">1</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
+                            </li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="#">
+                                    <i class="fas fa-angle-right"></i>
+                                    <span class="sr-only">Next</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div> -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<caption>
+    <a class="btn  btn-round1 btn-fab1" data-toggle="modal" data-target="#ModalAddProv">
+        <i class="fas fa-plus text-white"></i>
+    </a>
+</caption>
+
+
+<div class="modal fade" id="ModalAddProv" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title" id="modal-title-default">Agregar Proveedor</h6>
+                <button type="button" #closebuttonadd class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form class="form-horizontal" #addEmpr="ngForm" autocomplete="off" (ngSubmit)="addProveedor(addEmpr);">
+                <div class="modal-body ">
+                    <div class="wizard-container">
+                        <div class=" card-wizard" data-color="primary" id="wizardProfile">
+                            <div class="col-md-12" style="margin-top: -20px !important;">
+                                <div class="form-group row">
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label for="example-text-input" class="col-md-3 col-form-label form-control-label">Ruc</label>
+                                            <div class="col-md-9">
+                                                <input class="form-control" type="text" id="ruc" name="ruc" [ngModel]="ruc">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label for="example-text-input" class="col-md-3 col-form-label form-control-label">Dirección</label>
+                                            <div class="col-md-9">
+                                                <input class="form-control" type="text" id="direccion" name="direccion" ngModel>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12" style="margin-top: -20px !important;">
+                                <div class="form-group row">
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label for="example-text-input" class="col-md-3 col-form-label form-control-label">Razón Social</label>
+                                            <div class="col-md-9">
+                                                <input class="form-control" type="text" id="razonSoc" name="razonSoc" ngModel>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label for="example-text-input" class="col-md-3 col-form-label form-control-label">Correo</label>
+                                            <div class="col-md-9">
+                                                <input class="form-control" type="text" id="correo" name="correo" ngModel>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12" style="margin-top: -20px !important;">
+                                <div class="form-group row">
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label for="example-text-input" class="col-md-3 col-form-label form-control-label">Representante</label>
+                                            <div class="col-md-9">
+                                                <input class="form-control" type="text" id="representante" name="representante" ngModel>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label for="example-text-input" class="col-md-3 col-form-label form-control-label">Ciudad</label>
+                                            <div class="col-md-9">
+                                                <input class="form-control" type="text" id="ciudad" name="ciudad" ngModel>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12" style="margin-top: -20px !important;">
+                                <div class="form-group row">
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label for="example-text-input" class="col-md-3 col-form-label form-control-label">Teléfono</label>
+                                            <div class="col-md-9">
+                                                <input class="form-control" type="text" id="telefono" name="telefono" ngModel>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer" style="margin-top: -50px !important;">
+                    <button type="submit" class="btn btn-fill btn-danger" id="addEmpresa" name="addEmpresa">
+                        Agregar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" *ngIf="getData" id="ModalUpdProv" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title" id="modal-title-default">Modificar Proveedor</h6>
+                <button type="button" #closebuttonupd class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form class="form-horizontal" #addEmpr="ngForm" autocomplete="off" (ngSubmit)="updProveedor(addEmpr);">
+                <div class="modal-body ">
+                    <div class="wizard-container">
+                        <div class=" card-wizard" data-color="primary" id="wizardProfile">
+                            <div class="col-md-12" style="margin-top: -20px !important;">
+                                <div class="form-group row">
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label for="example-text-input" class="col-md-3 col-form-label form-control-label">Ruc</label>
+                                            <div class="col-md-9">
+                                                <input class="form-control" type="hidden" id="id" name="id" [ngModel]="provUpd._id">
+                                                <input class="form-control" type="text" id="ruc" name="ruc" [ngModel]="provUpd.ruc">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label for="example-text-input" class="col-md-3 col-form-label form-control-label">Dirección</label>
+                                            <div class="col-md-9">
+                                                <input class="form-control" type="text" id="direccion" name="direccion" [ngModel]="provUpd.direccion">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12" style="margin-top: -20px !important;">
+                                <div class="form-group row">
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label for="example-text-input" class="col-md-3 col-form-label form-control-label">Razón Social</label>
+                                            <div class="col-md-9">
+                                                <input class="form-control" type="text" id="razonSoc" name="razonSoc" [ngModel]="provUpd.razonSoc">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label for="example-text-input" class="col-md-3 col-form-label form-control-label">Correo</label>
+                                            <div class="col-md-9">
+                                                <input class="form-control" type="text" id="correo" name="correo" [ngModel]="provUpd.correo">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12" style="margin-top: -20px !important;">
+                                <div class="form-group row">
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label for="example-text-input" class="col-md-3 col-form-label form-control-label">Representante</label>
+                                            <div class="col-md-9">
+                                                <input class="form-control" type="text" id="representante" name="representante" [ngModel]="provUpd.representante">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label for="example-text-input" class="col-md-3 col-form-label form-control-label">Ciudad</label>
+                                            <div class="col-md-9">
+                                                <input class="form-control" type="text" id="ciudad" name="ciudad" [ngModel]="provUpd.ciudad">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12" style="margin-top: -20px !important;">
+                                <div class="form-group row">
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label for="example-text-input" class="col-md-3 col-form-label form-control-label">Teléfono</label>
+                                            <div class="col-md-9">
+                                                <input class="form-control" type="text" id="telefono" name="telefono" [ngModel]="provUpd.telefono">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer" style="margin-top: -50px !important;">
+                    <button type="submit" class="btn btn-fill btn-danger" id="addEmpresa" name="addEmpresa">
+                        Modificar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

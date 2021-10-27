@@ -1,0 +1,169 @@
+<div class="header bg-primary pb-6" style="background-color: #93D8F9 !important;">
+    <div class="container-fluid" style="background-color: #93D8F9;">
+        <div class="header-body">
+            <div class="row align-items-center py-4">
+                <div class="col-lg-6 col-7">
+                    <h6 class="h2 text-white d-inline-block mb-0">Categorías</h6>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid mt--6">
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <!-- Card header -->
+                <div class="card-header border-0">
+                    <form #buscar="ngForm" (keyup)="searchCat(buscar.value.buscarCat)">
+                        <input type="text" class="form-control" id="buscarCat" name="buscarCat" value="{{ buscarCat }}" [ngModel]="buscarCat" placeholder="Buscar...">
+                    </form>
+                </div>
+                <!-- Light table -->
+                <div class="table-responsive">
+
+                    <table class="table align-items-center table-flush">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col" class="sort">Imagen</th>
+                                <th scope="col" class="sort" data-sort="name">Descripción</th>
+                                <th scope="col" class="text-right">Acciones</th>
+                            </tr>
+                        </thead>
+
+                        <p *ngIf="coincidencia == false">No se encontró ninguna coincidencia</p>
+                        <tbody class="list" *ngIf="coincidencia == true">
+                            <tr *ngFor="let cat of categorias">
+                                <th>
+                                    <img src="{{ cat.img }}" style="height: 36px; width: 36px; border-radius: 100%;">
+                                </th>
+                                <th>
+                                    <span class="text-muted">{{ cat.descripcion }}</span>
+                                </th>
+
+                                <th class="text-right">
+                                    <!-- (click)="getDataPres(i)" -->
+                                    <button class="btn btn-primary btn-sm" (click)="getDataCat(cat);" data-toggle="modal" data-target="#ModalUpdCat"> Modificar </button>
+                                </th>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<caption>
+    <a class="btn  btn-round1 btn-fab1" data-toggle="modal" data-target="#ModalAddPres">
+        <i class="fas fa-plus text-white"></i>
+    </a>
+</caption>
+<!-- Modal para registrar categoría -->
+<div class="modal fade" id="ModalAddPres" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title" id="modal-title-default">Agregar Categoría</h6>
+                <button type="button" #closebuttonadd class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+
+            <form class="form-horizontal" #addPres="ngForm" autocomplete="off" (ngSubmit)="addCategoria(addPres);">
+                <div class="modal-body ">
+                    <div class="wizard-container">
+                        <div class=" card-wizard" data-color="primary" id="wizardProfile">
+                            <div class="col-md-12">
+                                <div class="form-group row">
+                                    <div class="col-md-12">
+                                        <div class="picture-container">
+                                            <div class="picture">
+                                                <img *ngIf="!imgTemp" src="assets/img/placeholder.jpg" class="picture-src" id="wizardPicturePreview1" title="" />
+                                                <img *ngIf="imgTemp" [src]="imgTemp" class="picture-src" id="wizardPicturePreview1" title="" />
+
+                                                <input type="file" class="form-control" id="wizard-picture" (change)="selectImage($event.target.files[0])">
+                                            </div>
+                                            <h6 id="noImage" class="description">Cambiar Imagen</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group row">
+                                    <label for="example-text-input" class="col-md-3 col-form-label form-control-label">Descripción</label>
+                                    <div class="col-md-9">
+                                        <input class="form-control" type="text" id="descripcion" name="descripcion" ngModel>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" [disabled]="estadoBtnAdd" class="btn btn-fill btn-danger" id="addCategoria" name="addCategoria">
+                        Agregar
+                        <img src="assets/img/icons/preloader1.gif" *ngIf="estadoBtnAdd" style="height: 20px !important; width: 20px !important;">
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal para modificar categoria -->
+<div class="modal fade" *ngIf="getData" id="ModalUpdCat" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title" id="modal-title-default">Agregar Categoría</h6>
+                <button type="button" #closebuttonupd class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+
+            <form class="form-horizontal" #updCat="ngForm" autocomplete="off" (ngSubmit)="updCategoria(updCat);">
+                <div class="modal-body ">
+                    <div class="wizard-container">
+                        <div class=" card-wizard" data-color="primary" id="wizardProfile">
+                            <div class="col-md-12">
+                                <div class="form-group row">
+                                    <div class="col-md-12">
+                                        <div class="picture-container">
+                                            <div class="picture">
+                                                <img *ngIf="!imgTemp" src="assets/img/placeholder.jpg" class="picture-src" id="wizardPicturePreview1" title="" />
+                                                <img *ngIf="imgTemp" [src]="imgTemp" class="picture-src" id="wizardPicturePreview1" title="" />
+
+                                                <input type="file" class="form-control" id="wizard-picture" (change)="selectImage($event.target.files[0])">
+                                            </div>
+                                            <h6 id="noImage" class="description">Cambiar Imagen</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group row">
+                                    <label for="example-text-input" class="col-md-3 col-form-label form-control-label">Descripción</label>
+                                    <div class="col-md-9">
+                                        <input class="form-control" type="hidden" id="_id" name="_id" [ngModel]="categoria._id">
+                                        <input class="form-control" type="text" id="descripcion" name="descripcion" [ngModel]="categoria.descripcion">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" [disabled]="estadoBtnAdd" class="btn btn-fill btn-danger" id="addCategoria" name="addCategoria">
+                        Modificar
+                        <img src="assets/img/icons/preloader1.gif" *ngIf="estadoBtnAdd" style="height: 20px !important; width: 20px !important;">
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

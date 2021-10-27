@@ -1,0 +1,211 @@
+<div class="header bg-primary pb-6" style="background-color: #93D8F9 !important;">
+    <div class="container-fluid" style="background-color: #93D8F9;">
+        <div class="header-body">
+            <div class="row align-items-center py-4">
+                <div class="col-lg-6 col-7">
+                    <h6 class="h2 text-white d-inline-block mb-0">Solicitudes</h6>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid mt--6">
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <br>
+
+                <div class="row">
+                    <div class="col-md-4"></div>
+                    <div class="col-md-6">
+                        <a class="btn btn-danger btn-md" id="{{btnPendiente}}" (click)="obtenerPendiente()">Pendientes</a>
+                        <a class="btn btn-ligth btn-md" id="{{btnGeneral}}"  (click)="obtenerGeneral()">Atendidas</a>
+                    </div>
+                </div>
+                <!-- <ul role="tablist" class="nav nav-tabs">
+                    <li role="presentation" class="active" style="width: 50%; text-align: center;"> -->
+                        <!-- <a href="#pendient" (click)="obtenerPendiente();" data-toggle="tab">Pendientes</a> -->
+                        <!-- <button class="btn btn-danger">Pendientes</button>
+                    </li>
+                    <li style="width: 50%; text-align: center;"> -->
+                        <!-- <a href="#general" (click)="obtenerGeneral();" data-toggle="tab">Atendidas</a> -->
+                        <!-- <button>Atendidas</button>
+                    </li>
+                </ul> -->
+
+                <div class="tab-content">
+                    <div id="pendient" class="tab-pane active">
+
+                        <!-- Card header -->
+                        <div class="card-header border-0">
+                            <!-- (keyup)="searchProv(buscar.value.buscarProv)" -->
+                            <form #buscar="ngForm" >
+                                <!-- [ngModel]="buscarProv" value="{{ buscarProv }}" -->
+                                <input type="text" class="form-control"   id="buscarProv" name="buscarProv" placeholder="Buscar...">
+                            </form>
+                        </div>
+                        <!-- Light table -->
+                        <div class="table-responsive">
+                            <table class="table align-items-center table-flush">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th scope="col" class="sort">Fecha</th>
+                                        <th scope="col" class="sort">Cliente</th>
+                                        <th scope="col" class="sort">Subtotal</th>
+                                        <th scope="col" class="sort">Iva</th>
+                                        <th scope="col" class="sort">Total</th>
+                                        <th scope="col" class="sort">Estado</th>
+                                        <th scope="col" class="sort" *ngIf="estadoSol">Comentario</th>
+                                        <th scope="col" class="text-right">Acciones</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody class="list" *ngFor="let req of reqSelect; let i = index">
+                                    <tr >
+                                        <th>
+                                            {{ req.fecha.substring(0,10) }}
+                                        </th>
+
+                                        <th>
+                                           {{ req.usuario.nombre }}
+                                        </th>
+
+                                        <th>
+                                           {{ req.subtotal }}
+                                        </th>
+
+                                        <th>
+                                            {{ req.iva }}
+                                        </th>
+
+                                        <th>
+                                            {{ req.total }}
+                                        </th>
+
+                                        <th>
+                                            {{ req.estado }}
+                                         </th>
+
+                                        <th *ngIf="estadoSol">
+                                            {{ req.comentario }}
+                                         </th>
+
+                                        <th class="text-right">
+                                            <!--  -->
+                                            <button class="btn btn-primary btn-sm"  data-toggle="modal" data-target="#viewDetail" (click)="getDetalle(req)">Ver más</button>
+                                        </th>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- Card footer -->
+                <!-- <div class="card-footer py-4">
+                    <nav aria-label="...">
+                        <ul class="pagination justify-content-end mb-0">
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" tabindex="-1">
+                                    <i class="fas fa-angle-left"></i>
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                            </li>
+                            <li class="page-item active">
+                                <a class="page-link" href="#">1</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
+                            </li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="#">
+                                    <i class="fas fa-angle-right"></i>
+                                    <span class="sr-only">Next</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div> -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade modal-mini" *ngIf="dataDetalle" id="viewDetail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <!-- <form #add="ngForm" id="addForm" autocomplete="off"> -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title" id="modal-title-default">Detalle Solicitud</h6>
+                <button type="button" #closebuttonadd class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body text-center">
+                <input type="hidden" id="idReq" name="idReq" [ngModel]="idReq">
+                <div class="content table-responsive table-full-width">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th class="text-center">Img</th>
+                                <th class="text-center">Detalle</th>
+                                <th class="text-center">Precio</th>
+                                <th class="text-center">Cantidad</th>
+                                <th class="text-center">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody *ngFor="let det of detailReq; let i = index">
+                            <tr>
+                                <th class="text-center"><img src="{{det.producto.img}}" width="32" height="32" style="border-radius: 100%;"></th>
+                                <th class="text-center">{{ det.producto.nombre }}</th>
+                                <th class="text-center">{{ det.producto.precioUni }}</th>
+                                <th class="text-center">{{ det.cantidad }}</th>
+                                <th class="text-center">{{ det.subtotal }}</th>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer" *ngIf="selectrequest.estado == 'Pendiente'">
+                <button type="button" class="btn btn-info btn-simple" (click)="aceptarSol()">Aceptar</button>
+                <!-- data-toggle="modal" data-dismiss="modal" data-target="#deniedtModal" -->
+                <button type="button" class="btn btn-danger btn-simple" data-dismiss="modal" data-toggle="modal" data-target="#deniedModal">Negar</button>
+            </div>
+            <div class="modal-footer" *ngIf="selectrequest.estado != 'Pendiente'">
+                <button type="button" class="btn btn-danger btn-simple" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+        <!-- </form> -->
+    </div>
+</div>
+
+
+<div class="modal fade modal-mini" id="deniedModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered">
+        <form #den="ngForm" id="denForm" (ngSubmit)="negarSol(den);" autocomplete="off">
+            <div class="modal-content">
+                <div class="modal-header justify-content-center">
+                    Solicitud Negada
+                    <button type="button" #closebuttonaden class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body text-center">
+
+                    <div class="content">
+                        <label class="col-md-12 col-form-label" style="margin-top: 10px;">Ingresar motivo:</label>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <textarea name="comments" id="comments" [ngModel]="comments" cols="50" rows="5"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-info btn-fill" [disabled]="estadoBtnAdd">Aceptar <img *ngIf="estadoBtnAdd" style="width: 18px; height: 18px;" src="assets/img/icons/preloader.gif" ></button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

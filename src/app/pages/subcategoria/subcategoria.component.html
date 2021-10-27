@@ -1,0 +1,157 @@
+<div class="header bg-primary pb-6" style="background-color: #93D8F9 !important;">
+    <div class="container-fluid" style="background-color: #93D8F9;">
+        <div class="header-body">
+            <div class="row align-items-center py-4">
+                <div class="col-lg-6 col-7">
+                    <h6 class="h2 text-white d-inline-block mb-0">Subcategorías</h6>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid mt--6">
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <!-- Card header -->
+                <div class="card-header border-0">
+                    <form #buscar="ngForm" (keyup)="searchSubCat(buscar.value.buscarSubCat)">
+                        <input type="text" class="form-control" id="buscarSubCat" name="buscarSubCat" value="{{ buscarSubCat }}" [ngModel]="buscarSubCat" placeholder="Buscar...">
+                    </form>
+                </div>
+                <!-- Light table -->
+                <div class="table-responsive ¿">
+
+                    <table class="table align-items-center table-flush sortable">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col" class="sort" data-sort="name">Descripción</th>
+                                <th scope="col" class="sort" data-sort="categoria">Categoría</th>
+                                <th scope="col" class="text-right">Acciones</th>
+                            </tr>
+                        </thead>
+
+                        <p *ngIf="coincidencia == false">No se encontró ninguna coincidencia</p>
+                        <tbody class="list" *ngIf="coincidencia == true">
+                            <tr *ngFor="let sub of subcategorias">
+
+                                <th class="name">
+                                    <span class="text-muted">{{ sub.descripcion }}</span>
+                                </th>
+                                <th class="categoria">
+                                    <span class="text-muted">{{ sub.categoria.descripcion }}</span>
+                                </th>
+                                <th class="text-right">
+                                    <!-- (click)="getDataPres(i)" -->
+                                    <button class="btn btn-primary btn-sm" (click)="getDataS(sub)" data-toggle="modal" data-target="#ModalUpdSubC" style="background-color: #D93B40;"> Modificar </button>
+                                </th>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<caption>
+    <a class="btn  btn-round1 btn-fab1" data-toggle="modal" data-target="#ModalAddSubC">
+        <i class="fas fa-plus text-white"></i>
+    </a>
+</caption>
+
+
+<div class="modal fade" id="ModalAddSubC" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title" id="modal-title-default">Agregar Subcategoría</h6>
+                <button type="button" #closebuttonadd class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <!-- " -->
+            <form class="form-horizontal" #addSub="ngForm" autocomplete="off" (ngSubmit)="addSubCat(addSub);">
+                <div class="modal-body ">
+                    <div class="wizard-container">
+                        <div class=" card-wizard" data-color="primary" id="wizardProfile">
+                            <div class="col-md-12">
+                                <div class="form-group row">
+                                    <label for="example-text-input" class="col-md-3 col-form-label form-control-label">Descripción</label>
+                                    <div class="col-md-9">
+                                        <input class="form-control" type="text" id="descripcion" name="descripcion" [ngModel]="descripcion">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group row">
+                                    <label for="example-text-input" class="col-md-3 col-form-label form-control-label">Categoría</label>
+                                    <div class="col-md-9">
+                                        <select class="form-control" id="categoria" name="categoria" ngModel>
+                                            <option *ngFor="let cat of categorias" value="{{cat._id}}">{{ cat.descripcion }}</option>
+                                          </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-fill btn-danger" id="addSubCat" name="addSubCat">
+                        Agregar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" *ngIf="getData" id="ModalUpdSubC" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title" id="modal-title-default">Modificar Subcategoría</h6>
+                <button type="button" #closebuttonupd class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <!-- " -->
+            <form class="form-horizontal" #addSub="ngForm" autocomplete="off" (ngSubmit)="updSubCat(addSub);">
+                <div class="modal-body ">
+                    <div class="wizard-container">
+                        <div class=" card-wizard" data-color="primary" id="wizardProfile">
+                            <div class="col-md-12">
+                                <div class="form-group row">
+                                    <label for="example-text-input" class="col-md-3 col-form-label form-control-label">Descripción</label>
+                                    <div class="col-md-9">
+                                        <input class="form-control" type="hidden" id="id" name="id" [ngModel]="subcategoria?._id">
+                                        <input class="form-control" type="text" id="descripcion" name="descripcion" [ngModel]="subcategoria?.descripcion">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group row">
+                                    <label for="example-text-input" class="col-md-3 col-form-label form-control-label">Categoría</label>
+                                    <div class="col-md-9">
+                                        <select class="form-control" id="categoria" name="categoria" [ngModel]="subcategoria?.categoria['_id']">
+                                            <option value="{{subcategoria?.categoria['_id']}}">{{ subcategoria?.categoria['descripcion'] }}</option>
+                                            <option *ngFor="let cat of categorias" value="{{cat._id}}">{{ cat.descripcion }}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-fill btn-danger" id="addSubCat" name="addSubCat">
+                        Modificar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

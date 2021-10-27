@@ -1,0 +1,11 @@
+#activo {
+    color: #fff;
+    background-color: #93D8F9;
+    border: none;
+}
+
+#noActivo {
+    color: #000;
+    background-color: #FF97B5;
+    border: none;
+}
