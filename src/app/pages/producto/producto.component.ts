@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormArray, FormBuilder, Validators  } from '@angular/forms';
+import { FormControl, FormArray, FormBuilder, Validators, NgForm } from '@angular/forms';
 import { ProductoService } from '../../services/producto.service';
 import { ProveedorService } from '../../services/proveedor.service';
 import { CategoriaService } from '../../services/categoria.service';
@@ -18,7 +18,7 @@ import Swal from 'sweetalert2';
 export class ProductoComponent implements OnInit {
   productos: Producto[] = [];
   producto: Producto;
-  
+  idProducto: string;
   coincidencia: boolean = true;
   ruc: string = "";
   buscarEmp = "";
@@ -112,49 +112,12 @@ export class ProductoComponent implements OnInit {
   }
   
   getProducto(){
-    // let desde = Number(cant * 10) - 10;  
-    
-    // this.numPage = cant;
-    
-    // if(this.numPage <= 1){
-    //   this.numPage = 1;
-    //   this.habilitarPre = 'disabled';
-    //   this.habilitarNext = '';
-    // }else if(this.numPage >= this.paginas.length){
-    //   this.numPage = this.paginas.length;
-    //   this.habilitarPre = '';
-    //   this.habilitarNext = 'disabled';
-    // }else{
-    //   this.habilitarPre = '';
-    //   this.habilitarNext = '';
-    // }
-
     this._prodService.getProductos().subscribe(resp => {
-      // this.paginas.length = Math.ceil(resp.conteo/10);
-     
-      // for (let i = 0; i < this.paginas.length; i++) {
-      //   this.paginas[i] = i;
-      //   this.pagActive[i] = '';
-      // }
-      // this.pagActive[cant-1] = 'active';
-      
       this.productos = resp.productos;
-      console.log(this.productos);
       this.estadoBtnAdd = false;
     });
   }
   
-  // changePage(opt){
-  //   //opt es si suma o resta
-  //   if(opt == "Suma"){
-  //     this.numPage = Number(this.numPage) + 1;
-  //   }else{
-  //     this.numPage = Number(this.numPage) - 1;
-  //   }
-
-  //   this.getProducto(this.numPage);
-  // }
-
   getCategoria(){
     this._catService.getCategoria().subscribe(resp => {
       this.categorias = resp;
@@ -173,7 +136,6 @@ export class ProductoComponent implements OnInit {
     this._subCatService.getSubCatId(idCat).subscribe(resp=>{
       this.subcategorias = resp;
     });
-    
   }
 
   getProveedores(){
@@ -203,7 +165,9 @@ export class ProductoComponent implements OnInit {
     this.producto = prod;
     this.imgTemp = prod.img;
     this.imgTempAux = prod.img;
-
+    this.idProducto = prod._id;
+  
+    console.log(this.idProducto);
     this.profileForm = this.fb.group({
       nombre: [prod.nombre, Validators.required],
       unidadMedida: [prod.unidadMedida, Validators.required],
@@ -314,7 +278,6 @@ export class ProductoComponent implements OnInit {
       }
     }
 
-    console.log(this.contImg);
     if (this.imgAdds[this.contImg] === undefined) {
       Swal.fire({
         icon: 'error',
@@ -364,7 +327,6 @@ export class ProductoComponent implements OnInit {
             }
 
             this.getImg = true;
-            // this.contImg = this.contImg - 1;
           }
         }
       }
@@ -388,7 +350,6 @@ export class ProductoComponent implements OnInit {
             });
           });
         }
-
       }
   }
 
@@ -492,5 +453,37 @@ export class ProductoComponent implements OnInit {
         console.log(resp);
       });
     }
+  }
+
+  soloDecimales(e){
+		var key = window.Event ? e.which : e.keyCode;
+		if ((key >= 48 && key <= 57) || (key==13) || (key==46)){
+			return true;
+		}else{
+			alert("Error.. Ingresar solo números ó punto");
+			e.preventDefault();
+		}
+  }
+
+  updProducto(){
+    let prod = this.profileForm;
+    prod.value.id = this.idProducto;
+
+    if (this.imgTemp === this.imgTempAux) {
+      prod.value.img = this.imgTemp;
+      this._prodService.updProducto(prod.value).subscribe(resp => {
+        this.getProducto();
+        this.closebuttonupd.nativeElement.click();
+      });
+    }else{
+      this._catService.subirImg(this.imgTemp).then(url => {
+        prod.value.img = url;
+        this._prodService.updProducto(prod.value).subscribe(resp => {
+          this.getProducto();
+          this.closebuttonupd.nativeElement.click();
+        });
+      });
+    }
+    
   }
 }

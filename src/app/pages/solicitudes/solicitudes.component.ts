@@ -114,7 +114,6 @@ export class SolicitudesComponent implements OnInit {
     });
 
   }
-
   
   negarSol(forma: NgForm){
     // const fecha = moment().format('YYYY-MM-DD');

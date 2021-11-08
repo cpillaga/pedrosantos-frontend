@@ -188,7 +188,7 @@
                                         <div class="form-group row">
                                             <label for="example-text-input" class="col-md-3 col-form-label form-control-label">Cantidad</label>
                                             <div class="col-md-9">
-                                                <input class="form-control" type="text" formControlName="stock">
+                                                <input class="form-control" type="text" formControlName="stock" (keypress)="soloDecimales($event)">
                                             </div>
                                         </div>
                                     </div>
@@ -201,7 +201,7 @@
                                         <div class="form-group row">
                                             <label for="example-text-input" class="col-md-3 col-form-label form-control-label">Precio</label>
                                             <div class="col-md-9">
-                                                <input class="form-control" type="text" formControlName="precioUni">
+                                                <input class="form-control" type="text" formControlName="precioUni" (keypress)="soloDecimales($event)">
                                             </div>
                                         </div>
                                     </div>
@@ -268,7 +268,7 @@
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
-            <form class="form-horizontal" [formGroup]="profileForm" (ngSubmit)="updProducto(addEmpr);">
+            <form #updEmpr class="form-horizontal" [formGroup]="profileForm" (ngSubmit)="updProducto(updEmpr);">
                 <div class="modal-body">
                     <div class="wizard-container">
                         <div class="card-wizard" data-color="primary" id="wizardProfile">
@@ -303,7 +303,7 @@
                                         <div class="form-group row">
                                             <label for="example-text-input" class="col-md-3 col-form-label form-control-label">Cantidad</label>
                                             <div class="col-md-9">
-                                                <input class="form-control" type="text" formControlName="stock">
+                                                <input class="form-control" type="text" formControlName="stock" (keypress)="soloDecimales($event)">
                                             </div>
                                         </div>
                                     </div>
@@ -316,7 +316,7 @@
                                         <div class="form-group row">
                                             <label for="example-text-input" class="col-md-3 col-form-label form-control-label">Precio</label>
                                             <div class="col-md-9">
-                                                <input class="form-control" type="text" formControlName="precioUni">
+                                                <input class="form-control" type="text" formControlName="precioUni" (keypress)="soloDecimales($event)">
                                             </div>
                                         </div>
                                     </div>
