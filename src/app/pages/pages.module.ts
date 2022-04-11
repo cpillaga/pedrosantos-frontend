@@ -12,6 +12,7 @@ import { ProveedorComponent } from './proveedor/proveedor.component';
 import { CategoriaComponent } from './categoria/categoria.component';
 import { SubcategoriaComponent } from './subcategoria/subcategoria.component';
 import { SolicitudesComponent } from './solicitudes/solicitudes.component';
+import { PromocionesComponent } from './promociones/promociones.component';
 
 
 @NgModule({
@@ -23,6 +24,7 @@ import { SolicitudesComponent } from './solicitudes/solicitudes.component';
     SubcategoriaComponent,
     ProveedorComponent,
     SolicitudesComponent,
+    PromocionesComponent,
   ],
   exports: [
       PagesComponent,

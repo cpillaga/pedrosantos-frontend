@@ -70,4 +70,19 @@ export class ProductoService {
             resp.producto
         );
   }
+
+  productNotification(body){
+    let token = localStorage.getItem('tokenHat');
+    // productos-promotions/promotions
+    const headers = new HttpHeaders({
+      token
+    });
+
+    const url = URL_SERVICE.url + '/productos-promotions/promotions';
+
+    return this.http.put( url, body, {headers} )
+        .map((resp: any) =>
+            resp
+        );
+  }
 }

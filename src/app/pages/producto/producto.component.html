@@ -1,9 +1,9 @@
-<div class="header bg-primary pb-6" style="background-color: #93D8F9 !important;">
-    <div class="container-fluid" style="background-color: #93D8F9;">
+<div class="header bg-primary pb-6" style="background-color: #FFC7E5 !important;">
+    <div class="container-fluid" style="background-color: #FFC7E5;">
         <div class="header-body">
             <div class="row align-items-center py-4">
                 <div class="col-lg-6 col-7">
-                    <h6 class="h2 text-white d-inline-block mb-0">Productos</h6>
+                    <h6 class="h2 d-inline-block mb-0">Productos</h6>
                 </div>
             </div>
         </div>
@@ -75,7 +75,7 @@
                                 </th>
 
                                 <th class="text-right">
-                                    <button class="btn btn-success btn-sm" (click)="getAliasAdd(prod._id);" data-toggle="modal" data-target="#ModalViewProd" style="margin-bottom: 5px; margin-right: 0px">Imágenes</button>
+                                    <button class="btn btn-danger btn-sm" (click)="getAliasAdd(prod._id);" id="btn-img" data-toggle="modal" data-target="#ModalViewProd" style="margin-bottom: 5px; margin-right: 0px">Imágenes</button>
                                     <br>
                                     <button class="btn btn-primary btn-sm" (click)="getDataProd(prod)" data-toggle="modal" data-target="#ModalUpdProd" style="margin-bottom: 5px; margin-right: 0px;">Modificar</button>
                                 </th>
@@ -115,7 +115,7 @@
 
 <caption>
     <a class="btn  btn-round1 btn-fab1" data-toggle="modal" data-target="#ModalAddEmpresa" (click)="vaciarImgAdd()">
-        <i class="fas fa-plus text-white"></i>
+        <i class="fas fa-plus text-white" style="margin-top: 35%;"></i>
     </a>
 </caption>
 

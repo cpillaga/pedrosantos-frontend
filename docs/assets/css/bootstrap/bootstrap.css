@@ -6627,14 +6627,14 @@ a.close.disabled {
 }
 
 .bg-primary {
-    background-color: #93D8F9 !important;
+    background-color: #FFC7E5 !important;
 }
 
 a.bg-primary:hover,
 a.bg-primary:focus,
 button.bg-primary:hover,
 button.bg-primary:focus {
-    background-color: #93D8F9 !important;
+    background-color: #FFC7E5 !important;
 }
 
 .bg-secondary {

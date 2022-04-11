@@ -6,6 +6,13 @@
     cursor: default;
 }
 
+#btn-img{
+    border: 1px solid #000;
+    background-color: #000;
+    color: #fff;
+    cursor: default;
+}
+
 #msgError {
     color: red;
     font-size: 9px;

@@ -33,7 +33,7 @@ var Charts = (function() {
             'secondary': '#f4f5f7',
             'info': '#11cdef',
             'success': '#2596D9',
-            'danger': '#93D8F9',
+            'danger': '#FFC7E5',
             'warning': '#fb6340'
         },
         black: '#12263F',
