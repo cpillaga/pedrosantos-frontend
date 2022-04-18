@@ -9,7 +9,6 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
   styleUrls: ['./promociones.component.css']
 })
 export class PromocionesComponent implements OnInit {
-
   title = "";
   mensaje="";
   load = false;
