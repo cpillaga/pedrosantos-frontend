@@ -2,12 +2,26 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Solicitud, DetalleSolicitud } from '../../models/general.model';
 import { SolicitudService } from '../../services/solicitud.service';
 import { NgForm } from '@angular/forms';
-import * as moment  from 'moment';
+// import * as moment  from 'moment';
+
+import Map from 'ol/Map';
+import View from 'ol/View';
+import TileLayer from 'ol/layer/Tile';
+import XYZ from 'ol/source/XYZ';
+// import Vector from 'ol/layer/Vector';
+import { Vector as Vec } from 'ol/layer';
+import { Vector } from 'ol/source';
+import Feature from 'ol/Feature';
+import Point from 'ol/geom/Point';
+import { Style, Icon } from 'ol/style';
+import IconAnchorUnits from 'ol/style/IconAnchorUnits';
+import { fromLonLat, transform } from 'ol/proj';
+
 
 @Component({
   selector: 'app-solicitudes',
   templateUrl: './solicitudes.component.html',
-  styleUrls: ['./solicitudes.component.css']
+  styleUrls: ['./solicitudes.component.scss']
 })
 export class SolicitudesComponent implements OnInit {
 
@@ -20,6 +34,7 @@ export class SolicitudesComponent implements OnInit {
 
   dataDetalle: boolean = false;
 
+  phone = "";
   // empresa = JSON.parse(localStorage.getItem("empresaBT"));
   // idEmpr = this.empresa['_id'];
   comments: string="";
@@ -30,6 +45,20 @@ export class SolicitudesComponent implements OnInit {
   estadoSol: boolean = true;
 
   public estadoBtnAdd = false;
+
+
+  
+  tokenMap = 'pk.eyJ1IjoicGxlbWE3MDQiLCJhIjoiY2p4a2o3cmhzMjRleDN0cDZweWJpeWducyJ9.iLAt8_WcAk6ShXSp6FooEg';
+  mapa;
+  map;
+  center;
+  capa;
+  source: any;
+  point: any;
+  marker: any;
+  markerVectorLayer: any;
+  submitted = false;
+
 
   @ViewChild('closebuttonadd',  {static: false}) closebuttonadd;
   @ViewChild('closebuttonaden',  {static: false}) closebuttonaden;
@@ -49,7 +78,6 @@ export class SolicitudesComponent implements OnInit {
     this.detailReq = null;
 
     this._solicitud.getAllRequest().subscribe(resp => {
-      console.log(resp);
       if (resp.length > 0) {
         this.request = resp;
         this.obtenerPendiente();
@@ -58,7 +86,6 @@ export class SolicitudesComponent implements OnInit {
   }
   
   obtenerGeneral(){
-    console.log("Entro general");
     this.reqSelect = [];
     let cont = 0;
     
@@ -72,10 +99,10 @@ export class SolicitudesComponent implements OnInit {
         cont = cont + 1;
       }
     }
+
   }
 
   obtenerPendiente(){
-    console.log("Entro pendiente");
     this.reqSelect = [];
     let cont = 0;
     
@@ -98,16 +125,21 @@ export class SolicitudesComponent implements OnInit {
     
     this._solicitud.getDetailRequest(this.selectrequest._id).subscribe(resp => {
       this.detailReq = resp;
-      this.dataDetalle = true;
+      
+      if (this.selectrequest['delivery'] === true ) {
+        this.center = [this.selectrequest['direccion'].lng, this.selectrequest['direccion'].lat ];
+
+        setTimeout(() => {
+          this.mapLoad();
+        }, 50);
+      }else{
+        this.dataDetalle = true;
+      }
     });
   }
 
   aceptarSol(){
-    // const fecha = moment().format('YYYY-MM-DD');
-    // const hora = moment().format('HH:mm:ss');
-  
-    // const dateA = fecha+"T"+hora+".182Z";
-
+    
     this._solicitud.atenderSolicitud(this.selectrequest._id, 'Aprobado', 'Solicitud Aprobada').subscribe(resp => {
       this.getRequest();
       this.closebuttonadd.nativeElement.click();
@@ -116,11 +148,6 @@ export class SolicitudesComponent implements OnInit {
   }
   
   negarSol(forma: NgForm){
-    // const fecha = moment().format('YYYY-MM-DD');
-    // const hora = moment().format('HH:mm:ss');
-  
-    // const dateA = fecha+"T"+hora+".182Z";
-
     this._solicitud.atenderSolicitud(this.selectrequest._id, 'Negado', forma.value.comments).subscribe(resp => {
       this.getRequest();
       this.closebuttonaden.nativeElement.click();
@@ -128,6 +155,71 @@ export class SolicitudesComponent implements OnInit {
       console.log(err);
     });
 
+  }
+
+  
+  mapLoad() {
+    this.map = new Map({
+      target: 'map',
+      layers: [
+        new TileLayer({
+          source: new XYZ({
+            url: `https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/256/{z}/{x}/{y}?access_token=${this.tokenMap}`
+          })
+        })
+      ],
+      view: new View({
+        center: fromLonLat(this.center),
+        zoom: 16,
+        maxZoom: 17,
+        minZoom: 15
+      })
+    });
+
+    this.crearMarcador();
+  }
+
+  crearMarcador(){
+    const marcadores = [];
+       
+    let marcador = new Feature({
+      geometry: new Point(
+          fromLonLat([this.selectrequest['direccion'].lng, this.selectrequest['direccion'].lat])// En dónde se va a ubicar
+      ),
+    });
+  
+    marcador.setStyle(this.iconStyle());
+  
+    marcadores.push(marcador);
+  
+    this.capa = new Vec({
+        source: new Vector({
+            features: marcadores,
+        }),
+    });
+  
+    this.map.addLayer(this.capa);
+  
+    this.dataDetalle = true;
+  }
+  
+  iconStyle() {
+    return new Style({
+      image: new Icon({
+        crossOrigin: 'anonymous',
+        anchor: [15, 43],
+        anchorXUnits: IconAnchorUnits.PIXELS,
+        anchorYUnits: IconAnchorUnits.PIXELS,
+        src: `assets/img/icons/marcador.png`,
+      })
+    });
+  }
+
+  sharedLocation(shared){
+    let latitude = "-2.894808884466345";
+    let longitude = "-79.00239172542254";
+    let ubicacion = `https://www.google.com/maps/dir/${latitude},${longitude}/${this.selectrequest['direccion'].lat},${this.selectrequest['direccion'].lng}`;
+    window.location.href = `https://api.whatsapp.com/send?phone=${shared.value.phone}&text=${ubicacion}`; 
   }
 }
 

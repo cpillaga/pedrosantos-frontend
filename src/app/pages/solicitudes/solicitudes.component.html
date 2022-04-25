@@ -20,17 +20,17 @@
                     <div class="col-md-4"></div>
                     <div class="col-md-6">
                         <a class="btn btn-danger btn-md" id="{{btnPendiente}}" (click)="obtenerPendiente()">Pendientes</a>
-                        <a class="btn btn-ligth btn-md" id="{{btnGeneral}}"  (click)="obtenerGeneral()">Atendidas</a>
+                        <a class="btn btn-ligth btn-md" id="{{btnGeneral}}" (click)="obtenerGeneral()">Atendidas</a>
                     </div>
                 </div>
                 <!-- <ul role="tablist" class="nav nav-tabs">
                     <li role="presentation" class="active" style="width: 50%; text-align: center;"> -->
-                        <!-- <a href="#pendient" (click)="obtenerPendiente();" data-toggle="tab">Pendientes</a> -->
-                        <!-- <button class="btn btn-danger">Pendientes</button>
+                <!-- <a href="#pendient" (click)="obtenerPendiente();" data-toggle="tab">Pendientes</a> -->
+                <!-- <button class="btn btn-danger">Pendientes</button>
                     </li>
                     <li style="width: 50%; text-align: center;"> -->
-                        <!-- <a href="#general" (click)="obtenerGeneral();" data-toggle="tab">Atendidas</a> -->
-                        <!-- <button>Atendidas</button>
+                <!-- <a href="#general" (click)="obtenerGeneral();" data-toggle="tab">Atendidas</a> -->
+                <!-- <button>Atendidas</button>
                     </li>
                 </ul> -->
 
@@ -40,9 +40,9 @@
                         <!-- Card header -->
                         <div class="card-header border-0">
                             <!-- (keyup)="searchProv(buscar.value.buscarProv)" -->
-                            <form #buscar="ngForm" >
+                            <form #buscar="ngForm">
                                 <!-- [ngModel]="buscarProv" value="{{ buscarProv }}" -->
-                                <input type="text" class="form-control"   id="buscarProv" name="buscarProv" placeholder="Buscar...">
+                                <input type="text" class="form-control" id="buscarProv" name="buscarProv" placeholder="Buscar...">
                             </form>
                         </div>
                         <!-- Light table -->
@@ -62,17 +62,17 @@
                                 </thead>
 
                                 <tbody class="list" *ngFor="let req of reqSelect; let i = index">
-                                    <tr >
+                                    <tr>
                                         <th>
                                             {{ req.fecha.substring(0,10) }}
                                         </th>
 
                                         <th>
-                                           {{ req.usuario.nombre }}
+                                            {{ req.usuario.nombre }}
                                         </th>
 
                                         <th>
-                                           {{ req.subtotal }}
+                                            {{ req.subtotal }}
                                         </th>
 
                                         <th>
@@ -85,15 +85,15 @@
 
                                         <th>
                                             {{ req.estado }}
-                                         </th>
+                                        </th>
 
                                         <th *ngIf="estadoSol">
                                             {{ req.comentario }}
-                                         </th>
+                                        </th>
 
                                         <th class="text-right">
                                             <!--  -->
-                                            <button class="btn btn-primary btn-sm"  data-toggle="modal" data-target="#viewDetail" (click)="getDetalle(req)">Ver más</button>
+                                            <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#viewDetail" (click)="getDetalle(req)">Ver más</button>
                                         </th>
                                     </tr>
 
@@ -146,6 +146,9 @@
             </div>
             <div class="modal-body text-center">
                 <input type="hidden" id="idReq" name="idReq" [ngModel]="idReq">
+                <div class="col-md-12" *ngIf="selectrequest.delivery">
+                    <div id="map" class="map"></div>
+                </div>
                 <div class="content table-responsive table-full-width">
                     <table class="table">
                         <thead>
@@ -169,12 +172,26 @@
                     </table>
                 </div>
             </div>
+
             <div class="modal-footer" *ngIf="selectrequest.estado == 'Pendiente'">
+                <!-- <div class="col-md-12"> -->
+                <!-- <div class="row">
+                        <div class="col-md-6">
+                            <a href="" style="cursor: pointer;">
+                                <img src="assets/img/icons/whatsapp.png" style="width: 36px; height: 36px;">
+                            </a>
+                        </div>
+
+                        <div class="col-md-6" style="text-align: right;"> -->
                 <button type="button" class="btn btn-info btn-simple" (click)="aceptarSol()">Aceptar</button>
-                <!-- data-toggle="modal" data-dismiss="modal" data-target="#deniedtModal" -->
                 <button type="button" class="btn btn-danger btn-simple" data-dismiss="modal" data-toggle="modal" data-target="#deniedModal">Negar</button>
+                <!-- </div>
+                    </div> -->
+                <!-- </div> -->
+
             </div>
             <div class="modal-footer" *ngIf="selectrequest.estado != 'Pendiente'">
+                <a type="button" data-toggle="modal" data-target="#sharedModal" class="btn btn-info btn-simple">Compartir Ubicación</a>
                 <button type="button" class="btn btn-danger btn-simple" data-dismiss="modal">Cerrar</button>
             </div>
         </div>
@@ -182,6 +199,33 @@
     </div>
 </div>
 
+
+<div class="modal fade modal-mini" id="sharedModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered">
+        <form #shared="ngForm" id="sharedForm" (ngSubmit)="sharedLocation(shared);" autocomplete="off">
+            <div class="modal-content">
+                <div class="modal-header justify-content-center">
+                    Compartir ubicación
+                    <button type="button" #closebuttonaden class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body text-center">
+
+                    <div class="content">
+                        <label class="col-md-12 col-form-label" style="margin-top: 10px;">Ingrese número de teléfono:</label>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" id="phone" name="phone" [ngModel]="phone">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-info btn-fill">Aceptar </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
 
 <div class="modal fade modal-mini" id="deniedModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-md modal-dialog-centered">
@@ -192,7 +236,6 @@
                     <button type="button" #closebuttonaden class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <div class="modal-body text-center">
-
                     <div class="content">
                         <label class="col-md-12 col-form-label" style="margin-top: 10px;">Ingresar motivo:</label>
                         <div class="row">

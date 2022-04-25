@@ -1,0 +1,246 @@
+#activo {
+    color: #fff;
+    background-color: #FFC7E5;
+    border: none;
+}
+
+#noActivo {
+    color: #000;
+    background-color: #E9F1FF;
+    border: none;
+}
+
+$modal-dialog-margin: 0.5rem !default;
+.fab-container {
+    position: fixed;
+    top: 120px;
+    right: 15px;
+    z-index: 100;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    background-color: #f6c042;
+    width: 30%;
+    height: 75%;
+}
+
+.input-group .form-control:first-child,
+.input-group-addon:first-child,
+.input-group-btn:first-child>.dropdown-toggle,
+.input-group-btn:last-child>.btn:not(:last-child):not(.dropdown-toggle) {
+    border-right: 0 none;
+}
+
+.input-group .form-control:last-child,
+.input-group-addon:last-child,
+.input-group-btn:last-child>.dropdown-toggle,
+.input-group-btn:first-child>.btn:not(:first-child) {
+    border-left: 0 none;
+}
+
+.input-group-addon {
+    background-color: #FFFFFF;
+    border: 1px solid #E3E3E3;
+    border-radius: 2px;
+    padding-right: 10px;
+    padding-top: 12px;
+}
+
+.input-group-btn .btn {
+    border-width: 1px;
+    padding: 8px 16px;
+}
+
+.input-group-btn .btn-default:not(.btn-fill) {
+    border-color: #DDDDDD;
+}
+
+.input-group-btn:last-child>.btn {
+    margin-left: 0;
+}
+
+.input-group-focus .input-group-addon {
+    border-color: #AAAAAA;
+}
+
+.form-control:focus+.input-group-addon,
+.form-control:focus~.input-group-addon {
+    background-color: #FFFFFF;
+    border-color: #9A9A9A;
+}
+
+input[type="number"] {
+    -webkit-appearance: textfield;
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+}
+
+.number-input {
+    border: 2px solid #ddd;
+    display: inline-flex;
+}
+
+.number-input,
+.number-input * {
+    box-sizing: border-box;
+}
+
+.number-input button {
+    outline: none;
+    -webkit-appearance: none;
+    background-color: transparent;
+    border: none;
+    align-items: center;
+    justify-content: center;
+    width: 15px;
+    height: 22px;
+    cursor: pointer;
+    margin: 0;
+    position: relative;
+}
+
+.number-input button:before,
+.number-input button:after {
+    display: inline-block;
+    position: absolute;
+    content: '';
+    width: 10px;
+    height: 2px;
+    background-color: #212121;
+    transform: translate(-50%, -50%);
+}
+
+.number-input button.plus:after {
+    transform: translate(-50%, -50%) rotate(90deg);
+}
+
+.number-input input[type=number] {
+    font-family: sans-serif;
+    max-width: 40px;
+    border: solid #ddd;
+    border-width: 0 2px;
+    font-size: 12px;
+    height: 22px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.map {
+    width: 100%;
+    height: 200px;
+    border-radius: 15px;
+    border: transparent;
+    overflow: hidden;
+}
+
+.card1 {
+    border: transparent;
+    border-radius: 10%;
+}
+
+.padre {
+    display: table;
+}
+
+.hijo {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.center {
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+
+.doc {
+    display: flex;
+    flex-flow: column wrap;
+    height: 250px !important;
+    width: 370px !important;
+    justify-content: center;
+    align-items: center;
+    background: rgba($color: #000000, $alpha: 0.5);
+}
+
+.box {
+    width: 370px;
+    height: 250px;
+    overflow: hidden;
+}
+
+.box img {
+    width: 100%;
+    height: auto;
+}
+
+@supports(object-fit: cover) {
+    .box img {
+        height: 100%;
+        object-fit: cover;
+        object-position: center center;
+    }
+}
+
+.modal-header1 {
+    /* border-bottom: 1px solid #DDDDDD; */
+    border: transparent;
+    padding: 20px;
+    text-align: center;
+    display: block !important;
+}
+
+.modal-header1 button.close {
+    margin-top: -25px;
+}
+
+.modal-title1 {
+    line-height: 1.1;
+    margin-bottom: 0;
+    text-align: center;
+}
+
+.btn-default1 {
+    color: #000;
+    // border: 1px solid #DDDDDD;
+    border-color: #DDDDDD;
+    background-color: #fff;
+    // box-shadow: 0 4px 6px rgba(50, 50, 93, .11), 0 1px 3px rgba(0, 0, 0, .08);
+}
+
+.btn-default1:hover {
+    color: #000;
+    border-color: #DDDDDD;
+    background-color: #fff;
+}
+
+.btn-default1:focus,
+.btn-default1.focus {
+    box-shadow: 0 4px 6px rgba(50, 50, 93, .11), 0 1px 3px rgba(0, 0, 0, .08), 0 0 0 0 rgba(23, 43, 77, .5);
+}
+
+.btn-default1.disabled,
+.btn-default1:disabled {
+    color: #000;
+    border-color: #DDDDDD;
+    background-color: #fff;
+}
+
+.btn-default1:not(:disabled):not(.disabled):active,
+.btn-default1:not(:disabled):not(.disabled).active,
+.show>.btn-default1.dropdown-toggle {
+    color: #000;
+    border-color: #DDDDDD;
+    background-color: #0b1526;
+}
+
+.btn-default1:not(:disabled):not(.disabled):active:focus,
+.btn-default1:not(:disabled):not(.disabled).active:focus,
+.show>.btn-default1.dropdown-toggle:focus {
+    box-shadow: none, 0 0 0 0 rgba(23, 43, 77, .5);
+}
